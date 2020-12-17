@@ -1,0 +1,133 @@
+<project xmlns:jacoco="antlib:org.jacoco.ant" name="project" default="main" basedir=".">
+
+	<property name="main.dir" value="src/main"/>
+	<property name="report.dir" value="build/reports"/>
+	<property name="test.dir" value="src/test"/>
+	<property name="src.dir" value="src/test; src/main"/>
+	<property name="doc.dir" value="build/docs"/>
+	<property name="lib.dir" value="build/jar"/>
+	<property name="build.dir" value="build"/>
+	<property name="result.report.dir" value="${report.dir}/coverage-reports"/>
+	<property name="result.exec.file" value="${result.report.dir}/jacoco.exec"/>
+	<input message="Enter filename of java to compile: " addproperty="java-file"/>
+	
+	<target name="clean-build" depends="clean,jar"/>
+
+	<target name="main" depends="clean,run"/>
+	<target name="test" depends="clean,testing,report"/>
+	<!-- <target name="coverage" depends="testing,report"/> -->
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<path id="classpath">
+		<path location="lib">
+			<fileset dir="lib" includes="*.jar"/>
+		</path>
+		<path location="${build.dir}/classes"></path>
+	</path>
+
+	<!-- This task will compile all the needed java source files -->
+	<target name="compile" description="compile java files">
+			<mkdir dir="${build.dir}/classes"/>
+			<javac sourcepath="" srcdir="${src.dir}"
+			destdir="${build.dir}/classes"
+			classpathref="classpath"
+			includeantruntime="false"
+			fork="true">
+		</javac>
+	</target>
+
+<!-- 	<target name="junit" depends="compile">
+	<mkdir dir="${report.dir}/junit-reports"/>
+	    <junit printsummary="yes" haltonfailure="no">
+	    	<classpath refid="classpath"/>
+	    	<formatter type="plain" />
+	    	<batchtest fork="yes" todir="${report.dir}/junit-reports">
+	        	<fileset dir="${test.dir}">
+	         	<include name="**/*Test*.java" />
+	        	</fileset>
+	    	</batchtest>
+	    </junit>
+	</target> -->
+
+	<target name="doc" description="generate java documentation for all java files" 
+		depends="compile">
+		<mkdir dir="${doc.dir}"/>
+		<javadoc destdir="${doc.dir}">
+			<fileset dir="${main.dir}"
+				excludes="${java-file}.java"/>
+		</javadoc>
+	</target>
+
+	<target name="jar" depends="doc" description="generate jar files for all java files">
+		<mkdir dir="${lib.dir}"/>
+		<jar destfile="${lib.dir}/${java-file}.jar">
+			<fileset dir="${build.dir}/classes"/>
+			<manifest>
+				<attribute name="Main-class" value="${java-file}"/>
+			</manifest>
+		</jar>
+		<jar destfile="${lib.dir}/${java-file}-javadoc.jar">
+			<fileset dir="${doc.dir}"/>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar" description="execute the java file">
+		<java jar="${lib.dir}/${java-file}.jar" fork="true"/>
+	</target>
+
+	<!-- This taskdef will import the JaCoCo ANT library or the JaCoCo ANT task -->
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="lib/jacocoant.jar"/>
+    </taskdef>
+
+    <!-- This task will will perform the junit with JaCoCo coverage task -->
+   <target name="testing" depends="compile">
+   		<mkdir dir="${report.dir}/junit-reports"/>
+	   	<mkdir dir="${result.report.dir}"/>
+	   	<jacoco:coverage destfile="${result.exec.file}" xmlns:jacoco="antlib:org.jacoco.ant" 
+	   		exclclassloader="sun.reflect.DelegatingClassLoader:javassist.Loader">
+	   		<!-- Perform the junit inside the coverage test -->
+	    <junit printsummary="yes" haltonfailure="no" fork="true">
+	    	<classpath refid="classpath"/>
+	    	<formatter type="plain" />
+	    	<batchtest fork="yes" todir="${report.dir}/junit-reports">
+	        	<fileset dir="${test.dir}">
+	         	<include name="**/*Test*.java" />
+	        	</fileset>
+	    	</batchtest>
+	    </junit>
+	   	</jacoco:coverage>
+   </target>
+
+   <!-- This task will generate coverage report in different formats 
+   html, csv, xml -->
+   <target name="report" depends="testing">
+	<!-- Create coverage report  -->
+	<jacoco:report>
+		<!--  This task needs the collected execution data ..  -->
+		<executiondata>
+			<file file="${result.exec.file}"/>
+		</executiondata>
+		<!--  This task needed the class files and optional source files 
+		that will be needed to generate report...  -->
+		<structure name="JUnit Coverage Report">
+			<classfiles>
+			<fileset dir="${build.dir}/classes">
+				<include name="**/*Test*"/>
+			</fileset>
+			</classfiles>
+			<sourcefiles encoding="UTF-8">
+			<fileset dir="${test.dir}"/>
+			</sourcefiles>
+		</structure>
+		<!--  to produce reports in different formats.  -->
+		<html destdir="${result.report.dir}"/>
+		<csv destfile="${result.report.dir}/report.csv"/>
+		<xml destfile="${result.report.dir}/report.xml"/>
+	</jacoco:report>
+	</target>
+
+</project>
