@@ -1,0 +1,54 @@
+<project name="project" default="main" basedir=".">
+
+	<property name="src.dir" value="src"/>
+	<property name="doc.dir" value="build/docs"/>
+	<property name="lib.dir" value="build/jar"/>
+	<property name="build.dir" value="build"/>
+	<input message="Enter filename of java to compile: " addproperty="java-file"/>
+	
+	<target name="clean-build" depends="clean,jar"/>
+
+	<target name="main" depends="clean,run"/>
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="build" description="compile java files">
+			<mkdir dir="${build.dir}/classes"/>
+			<javac sourcepath="" srcdir="${src.dir}"
+			destdir="${build.dir}/classes"
+			classpath="${build.dir}/classes"
+			includeantruntime="false"
+			fork="true">
+		</javac>
+	</target>
+
+	<target name="doc" description="generate java documentation for all java files" 
+		depends="build">
+		<mkdir dir="${doc.dir}"/>
+		<javadoc destdir="${doc.dir}">
+			<fileset dir="${src.dir}"
+				excludes="${java-file}.java"/>
+		</javadoc>
+	</target>
+
+	<target name="jar" depends="doc" description="generate jar files for all java files">
+		<mkdir dir="${lib.dir}"/>
+		<jar destfile="${lib.dir}/${java-file}.jar">
+			<fileset dir="${build.dir}/classes"/>
+			<manifest>
+				<attribute name="Main-class" value="${java-file}"/>
+			</manifest>
+		</jar>
+		<jar destfile="${lib.dir}/${java-file}-javadoc.jar">
+			<fileset dir="${doc.dir}"/>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar" description="execute the java file">
+		<java jar="${lib.dir}/${java-file}.jar" fork="true"/>
+	</target>
+
+
+</project>

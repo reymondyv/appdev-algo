@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"FacadePatternClass"},{"p":"<Unnamed>","l":"NegativeExponentException"},{"p":"<Unnamed>","l":"Polynomial"},{"p":"<Unnamed>","l":"PolynomialGUI"},{"p":"<Unnamed>","l":"RelOps"},{"p":"<Unnamed>","l":"RelQuantifiers"},{"p":"<Unnamed>","l":"Term"}];updateSearchResults();
