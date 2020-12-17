@@ -130,7 +130,14 @@ public class Main {
         System.out.println("RELATIONAL QUANTIFIERS\n"+
                 "1. At Least\n"+
                 "2. At Most\n"+
-                "3. Not Less Than\n"+
+                "3. Note());
+                facade.useNotMoreThan(value1,value2);
+                break;
+            case 5:
+   
+            case 7:
+                System.out.println("Enter value(Out of   value1 = Double.parseDouble(input.nextLine());
+                System.out.println("Enter Less Than\n"+
                 "4. Not More Than\n" +
                 "5. Within Inclusive\n" +
                 "6. Within Exclusive\n" +
@@ -149,8 +156,9 @@ public class Main {
                 break;
             case 2:
                 System.out.println("Enter first value(At most): ");
-                value1 = Double.parseDouble(input.nextLine());
-                System.out.println("Enter second value(At most): ");
+             ());
+                System.out.println("Enter second value(Not More Than): ");
+                value2 = Double.parseDouble(input.nextLin second value(At most): ");
                 value2 = Double.parseDouble(input.nextLine());
                 facade.useAtMost(value1,value2);
                 break;
@@ -163,13 +171,9 @@ public class Main {
                 break;
             case 4:
                 System.out.println("Enter first value(Not More Than): ");
+                value1 = Double.parseDouble(input.nextLine Range Inclusive): ");
                 value1 = Double.parseDouble(input.nextLine());
-                System.out.println("Enter second value(Not More Than): ");
-                value2 = Double.parseDouble(input.nextLine());
-                facade.useNotMoreThan(value1,value2);
-                break;
-            case 5:
-                System.out.println("Enter value(Within Inclusive): ");
+                System.out.println("Enter max valu             System.out.println("Enter value(Within Inclusive): ");
                 value1 = Double.parseDouble(input.nextLine());
                 System.out.println("Enter max value(Within Inclusive): ");
                 value2 = Double.parseDouble(input.nextLine());
@@ -185,27 +189,11 @@ public class Main {
                 System.out.println("Enter min value(Within Exclusive): ");
                 value3 = Double.parseDouble(input.nextLine());
                 facade.useWithinExclusive(value1,value2,value3);
-                break;
-            case 7:
-                System.out.println("Enter value(Out of Range Inclusive): ");
-                value1 = Double.parseDouble(input.nextLine());
-                System.out.println("Enter max value(Out of Range Inclusive): ");
+                break;e(Out of Range Inclusive): ");
                 value2 = Double.parseDouble(input.nextLine());
                 System.out.println("Enter min value(Out of Range Inclusive): ");
                 value3 = Double.parseDouble(input.nextLine());
-                facade.useOutOfRangeInclusive(value1,value2,value3);
-                break;
-            case 8:
-                System.out.println("Enter value(Out of Range Exclusive): ");
-                value1 = Double.parseDouble(input.nextLine());
-                System.out.println("Enter max value(Out of Range Exclusive): ");
-                value2 = Double.parseDouble(input.nextLine());
-                System.out.println("Enter min value(Out of Range Exclusive): ");
-                value3 = Double.parseDouble(input.nextLine());
-                facade.useOutOfRangeExclusive(value1,value2,value3);
-                break;
-            case 9:
-                System.out.println("Enter first boolean value(Exclusive Or): ");
+       xclusive Or): ");
                 booleanValue1 = Boolean.parseBoolean(input.nextLine());
                 System.out.println("Enter second boolean value(Exclusive Or): ");
                 booleanValue2 = Boolean.parseBoolean(input.nextLine());
@@ -221,7 +209,19 @@ public class Main {
 
     public static void enter_prompt() {
         System.out.print("Press ENTER to continue");
-        try {
+        try {         facade.useOutOfRangeInclusive(value1,value2,value3);
+                break;
+            case 8:
+                System.out.println("Enter value(Out of Range Exclusive): ");
+                value1 = Double.parseDouble(input.nextLine());
+                System.out.println("Enter max value(Out of Range Exclusive): ");
+                value2 = Double.parseDouble(input.nextLine());
+                System.out.println("Enter min value(Out of Range Exclusive): ");
+                value3 = Double.parseDouble(input.nextLine());
+                facade.useOutOfRangeExclusive(value1,value2,value3);
+                break;
+            case 9:
+                System.out.println("Enter first boolean value(E
             System.in.read(new byte[2]);    //Try to do the process
         } catch (Exception e) {
             e.printStackTrace();        //Catch the process if it fails or contains error
